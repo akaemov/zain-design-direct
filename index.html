@@ -1,706 +1,1094 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Интерактивная стратегия Яндекс.Директ — Дизайн интерьера и реализация под ключ • Уфа</title>
-<meta name="description" content="Интерактивная стратегия поисковой рекламы Яндекс.Директ для студии дизайна интерьера и реализации под ключ в Уфе." />
-<style>
-:root{
-  --bg:#f5f1ea;
-  --paper:#fcfaf7;
-  --ink:#1e2430;
-  --muted:#667085;
-  --line:#e7dfd3;
-  --card:#ffffff;
-  --accent:#233a5e;
-  --accent-2:#b78f5a;
-  --accent-3:#7e8f87;
-  --good:#2d6a4f;
-  --warn:#9b6b1d;
-  --shadow:0 14px 40px rgba(24,34,52,.08);
-  --radius:20px;
-  --radius-sm:14px;
-  --max:1240px;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-  color:var(--ink);
-  background:
-    radial-gradient(circle at top right, rgba(183,143,90,.13), transparent 22%),
-    radial-gradient(circle at left 10% top 16%, rgba(35,58,94,.10), transparent 20%),
-    linear-gradient(180deg, #f8f5ef 0%, #f3efe7 100%);
-}
-a{color:var(--accent);text-decoration:none}
-a:hover{text-decoration:underline}
-.wrap{max-width:var(--max); margin:0 auto; padding:0 24px}
-.nav{
-  position:sticky; top:0; z-index:50; backdrop-filter: blur(12px);
-  background:rgba(252,250,247,.82); border-bottom:1px solid rgba(231,223,211,.85);
-}
-.nav-inner{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px 0}
-.brand{display:flex; gap:12px; align-items:center; min-width:0}
-.logo{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),#385482);color:#fff;font-weight:800;box-shadow:var(--shadow)}
-.brand h1{font-size:14px;line-height:1.15;margin:0}
-.brand small{display:block;color:var(--muted);font-size:12px}
-.nav-links{display:flex;flex-wrap:wrap; gap:10px}
-.nav-links a{padding:10px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px}
-.hero{padding:72px 0 42px}
-.hero-grid{display:grid;grid-template-columns:1.35fr .85fr; gap:24px; align-items:stretch}
-.panel{background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.78)); border:1px solid rgba(231,223,211,.92); border-radius:28px; box-shadow:var(--shadow)}
-.hero-card{padding:34px 30px}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;background:#fff;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:13px;margin-bottom:16px}
-h1.display{font-size:clamp(34px, 5vw, 58px); line-height:1.02; letter-spacing:-.03em; margin:0 0 16px}
-.lead{font-size:18px;line-height:1.6;color:#495161;max-width:860px}
-.cta-row{display:flex; flex-wrap:wrap; gap:12px; margin-top:24px}
-.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 18px;border-radius:14px;font-weight:600;border:1px solid transparent;cursor:pointer}
-.btn.primary{background:var(--accent); color:#fff}
-.btn.secondary{background:#fff;border-color:var(--line); color:var(--ink)}
-.stats{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; padding:20px}
-.stat{padding:18px; background:rgba(255,255,255,.75); border:1px solid var(--line); border-radius:18px}
-.stat .k{font-size:28px;font-weight:800;margin-bottom:6px}
-.stat .t{font-size:13px;color:var(--muted);line-height:1.45}
-.section{padding:18px 0 30px}
-.section-head{display:flex; align-items:end; justify-content:space-between; gap:18px; margin:0 0 18px}
-.section h2{font-size:30px;line-height:1.1;margin:0;letter-spacing:-.02em}
-.section p.sub{margin:0;color:var(--muted);max-width:780px;line-height:1.6}
-.grid{display:grid; gap:18px}
-.grid-4{grid-template-columns:repeat(4,1fr)}
-.grid-3{grid-template-columns:repeat(3,1fr)}
-.grid-2{grid-template-columns:repeat(2,1fr)}
-.card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow)}
-.soft{background:linear-gradient(180deg,#fff,#faf7f3)}
-.card h3{margin:0 0 10px; font-size:20px; line-height:1.2}
-.card p{margin:0; color:#515b6a; line-height:1.6}
-.badge{display:inline-flex; padding:7px 10px; border-radius:999px; background:#f1efe9; color:#5e6672; font-size:12px; border:1px solid var(--line); margin-bottom:12px}
-.mini{font-size:13px; color:var(--muted)}
-.bar{height:10px; border-radius:999px; background:#ece6db; overflow:hidden; margin-top:12px}
-.bar > span{display:block;height:100%; background:linear-gradient(90deg,var(--accent),var(--accent-2)); border-radius:999px}
-.kpi-row{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
-.kpi{padding:18px;border-radius:18px;background:#fff;border:1px solid var(--line)}
-.kpi strong{display:block;font-size:28px;margin-bottom:8px}
-.tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
-.tab-btn{padding:10px 14px;border:1px solid var(--line);background:#fff;border-radius:999px;cursor:pointer;font-weight:600;color:#495161}
-.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.tab-panel{display:none}
-.tab-panel.active{display:block}
-.persona{display:grid;grid-template-columns:1.05fr .95fr;gap:18px}
-.list{margin:0;padding-left:18px;color:#4e5663;line-height:1.65}
-.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;align-items:stretch}
-.flow .node{position:relative;padding:18px;border-radius:18px;background:#fff;border:1px solid var(--line)}
-.flow .node:not(:last-child)::after{content:"→";position:absolute;right:-14px;top:50%;transform:translateY(-50%);width:28px;height:28px;display:grid;place-items:center;color:#8d97a8;font-size:22px}
-.tool-filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
-.filter-btn{padding:9px 12px;border-radius:999px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:13px}
-.filter-btn.active{background:#192f50;color:#fff;border-color:#192f50}
-.tool-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.tool-card{padding:18px;border:1px solid var(--line);border-radius:18px;background:#fff}
-.tool-card .stage{font-size:12px;color:var(--accent-2);font-weight:700;letter-spacing:.03em;text-transform:uppercase}
-.accordion{display:grid;gap:12px}
-.acc-item{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}
-.acc-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 18px;cursor:pointer}
-.acc-head strong{font-size:17px}
-.acc-body{display:none;padding:0 18px 18px;color:#515b6a;line-height:1.65}
-.acc-item.open .acc-body{display:block}
-.table-wrap{overflow:auto}
-table{width:100%; border-collapse:separate; border-spacing:0; background:#fff; border:1px solid var(--line); border-radius:18px; overflow:hidden}
-th,td{padding:14px 14px; text-align:left; vertical-align:top; border-bottom:1px solid var(--line); font-size:14px; line-height:1.45}
-th{background:#f6f2ec;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#667085}
-tr:last-child td{border-bottom:none}
-.callout{padding:22px;border-radius:22px;background:linear-gradient(135deg, rgba(35,58,94,.96), rgba(58,86,126,.95)); color:#fff; box-shadow:var(--shadow)}
-.callout h3{margin:0 0 10px;font-size:22px}
-.callout p{margin:0;color:rgba(255,255,255,.88);line-height:1.7}
-.note{padding:18px;border-radius:18px;background:#fff8e9;border:1px solid #eedfb0;color:#714f17}
-.columns{columns:2; column-gap:18px}
-.columns a{display:block; margin:0 0 12px; break-inside:avoid}
-.footer{padding:28px 0 60px; color:#6d7685}
-small.source{display:block;color:#7b8390;font-size:12px;line-height:1.55;margin-top:8px}
-@media (max-width: 1120px){
-  .hero-grid,.persona,.grid-4,.grid-3,.grid-2,.tool-grid,.flow,.kpi-row{grid-template-columns:1fr}
-  .flow .node:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-18px;transform:translateX(-50%)}
-  .columns{columns:1}
-}
-@media (max-width: 720px){
-  .wrap{padding:0 16px}
-  .hero{padding-top:44px}
-  .hero-card{padding:24px 20px}
-  .nav-inner{align-items:flex-start; flex-direction:column}
-  .nav-links{width:100%}
-  .nav-links a{font-size:12px; padding:9px 10px}
-  h1.display{font-size:34px}
-  .lead{font-size:16px}
-}
-</style>
-</head>
-<body>
-  <nav class="nav">
-    <div class="wrap nav-inner">
-      <div class="brand">
-        <div class="logo">YD</div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f6f7f2" />
+    <title>Zain Design — стратегия Яндекс.Директ</title>
+    <meta
+      name="description"
+      content="Понятная карта рекламной стратегии Zain Design: аудитория, кампании, экономика дизайн-проекта и решения перед запуском."
+    />
+    <link rel="stylesheet" href="assets/style.css" />
+    <script src="assets/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Перейти к содержанию</a>
+    <aside class="sidebar">
+      <a class="brand" href="#overview">ZAIN<span>DESIGN / DIRECT</span></a>
+      <div class="workspace">
+        <span class="status-dot"></span> Стратегия привлечения
+      </div>
+      <nav aria-label="Разделы стратегии">
+        <a href="#overview" class="active"><span>01</span>Обзор</a
+        ><a href="#campaigns"><span>02</span>Карта кампаний</a
+        ><a href="#audience"><span>03</span>Аудитория</a
+        ><a href="#tools"><span>04</span>Инструменты</a
+        ><a href="#launch"><span>05</span>План запуска</a
+        ><a href="#decisions"><span>06</span>Решения заказчика</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <span class="mono">УФА · ПОИСК ЯНДЕКСА</span>
+        <p>От намерения в поиске<br />к проекту под ключ.</p>
+        <a href="#sources"
+          >Источники и допущения
+          <svg class="arrow-icon" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M4 12 12 4M4 4h8v8" /></svg
+        ></a>
+      </div>
+    </aside>
+    <div class="page">
+      <header class="topbar">
         <div>
-          <h1>Интерактивная стратегия</h1>
-          <small>Дизайн интерьера и реализация под ключ • Уфа</small>
+          <span class="status-dot"></span> Рекламная стратегия
+          <span class="top-separator">/</span>
+          <span class="muted">Обзор для заказчика</span>
         </div>
-      </div>
-      <div class="nav-links">
-        <a href="#why">Почему Яндекс.Директ</a>
-        <a href="#campaigns">Карта кампаний</a>
-        <a href="#tools">Инструменты</a>
-        <a href="#audience">Целевая аудитория</a>
-        <a href="#jtbd">JTBD</a>
-        <a href="#steps">Этапы</a>
-        <a href="#questions">Что нужно от клиента</a>
-      </div>
+        <a href="#decisions" class="top-action"
+          >Перед запуском
+          <span
+            ><svg class="arrow-icon" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M4 12 12 4M4 4h8v8" /></svg></span
+        ></a>
+      </header>
+      <main id="main">
+        <section id="overview" class="overview">
+          <div class="section-kicker">
+            <span>СТРАТЕГИЯ / 2026</span
+            ><span class="edition">Редакция 20 октября</span>
+          </div>
+          <div class="hero-grid">
+            <div>
+              <h1>
+                Меньше случайных лидов.<br /><em>Больше ваших проектов.</em>
+              </h1>
+              <p class="hero-lead">
+                Поисковая реклама для студии дизайна интерьера в Уфе. Фокус — на
+                клиентах с объектом, понятной задачей и намерением заказать
+                проект.
+              </p>
+              <a href="#campaigns" class="button dark"
+                >Изучить стратегию
+                <span
+                  ><svg
+                    class="arrow-icon"
+                    viewBox="0 0 16 16"
+                    aria-hidden="true"
+                  >
+                    <path d="M4 12 12 4M4 4h8v8" /></svg></span
+              ></a>
+            </div>
+            <aside class="hero-note">
+              <span class="label"
+                ><span class="status-dot"></span> ГЛАВНЫЙ ОРИЕНТИР</span
+              >
+              <h2>Качество обращения,<br />а не цена любой заявки.</h2>
+              <p>
+                Связываем рекламу с квалификацией, встречами и договорами.
+                Масштабируем то, что приносит подходящие проекты.
+              </p>
+              <div class="note-footer">
+                <span>Канал старта</span><strong>Только Поиск</strong>
+              </div>
+            </aside>
+          </div>
+          <div class="metrics">
+            <article>
+              <span class="label">МИНИМАЛЬНЫЙ ОБЪЕКТ</span
+              ><strong>60<span> м²</span></strong>
+              <p>Порог из брифа студии</p>
+            </article>
+            <article>
+              <span class="label">БАЗОВАЯ ЦЕНА ПРОЕКТА</span
+              ><strong>6 500<span> ₽/м²</span></strong>
+              <p>Условия скидки согласуются отдельно</p>
+            </article>
+            <article>
+              <span class="label">ЖЕЛАЕМЫЙ ФОКУС</span
+              ><strong>2–3<span> проекта</span></strong>
+              <p>Крупных новых проекта в месяц</p>
+            </article>
+            <article>
+              <span class="label">ПРЕДЕЛ ЗАГРУЗКИ</span
+              ><strong>5<span> проектов</span></strong>
+              <p>Новых в месяц по данным брифа</p>
+            </article>
+          </div>
+          <div class="section-title compact">
+            <div>
+              <span class="label">СТРАТЕГИЯ В ЦИФРАХ</span>
+              <h2>Сначала фокус. Затем масштаб.</h2>
+            </div>
+            <span class="tag">Структура плана · не результаты рекламы</span>
+          </div>
+          <div class="charts">
+            <article class="panel bar-panel">
+              <div class="panel-heading">
+                <div>
+                  <span class="label">01 / СТОЛБЧАТАЯ ДИАГРАММА</span>
+                  <h3>Приоритеты кампаний</h3>
+                </div>
+                <span class="small-icon" aria-hidden="true">▥</span>
+              </div>
+              <p class="chart-intro">Сколько направлений в каждой группе</p>
+              <div
+                id="bar-chart"
+                class="chart"
+                role="img"
+                aria-label="Высокий приоритет: 3 кампании; средний: 2; низкий: 1"
+              ></div>
+              <div class="chart-foot">
+                <span class="legend-dot green-dot"></span> 3 направления — ядро
+                стратегии
+              </div>
+            </article>
+            <article class="panel radial-panel">
+              <div class="panel-heading">
+                <div>
+                  <span class="label">02 / РАДИАЛЬНАЯ ДИАГРАММА</span>
+                  <h3>Ядро карты кампаний</h3>
+                </div>
+                <span class="small-icon" aria-hidden="true">◉</span>
+              </div>
+              <div
+                id="radial-chart"
+                role="img"
+                aria-label="Три из шести направлений имеют высокий приоритет"
+              ></div>
+              <div class="radial-legend">
+                <span
+                  ><i class="legend-dot green-dot"></i> Высокий приоритет
+                  <b>3</b></span
+                ><span
+                  ><i class="legend-dot gray-dot"></i> Остальные <b>3</b></span
+                >
+              </div>
+              <p class="chart-foot">Это число направлений, не доля бюджета.</p>
+            </article>
+          </div>
+          <article class="panel line-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="label"
+                  >03 / ЛИНЕЙНЫЙ ГРАФИК · РАСЧЁТНЫЙ СЦЕНАРИЙ</span
+                >
+                <h3>Как площадь влияет на стоимость проекта</h3>
+              </div>
+              <div
+                class="segmented"
+                role="group"
+                aria-label="Ставка для расчёта"
+              >
+                <button data-rate="6500" aria-pressed="true" class="selected">
+                  6 500 ₽/м²</button
+                ><button data-rate="5000" aria-pressed="false">
+                  5 000 ₽/м²
+                </button>
+              </div>
+            </div>
+            <div class="line-layout">
+              <div>
+                <div id="line-chart" class="chart"></div>
+                <p class="chart-caption">
+                  Стоимость дизайн-проекта = площадь × ставка. Не включает
+                  ремонт, не показывает прибыль или рекламную окупаемость.
+                </p>
+              </div>
+              <div class="calculator">
+                <label for="area"
+                  >Площадь объекта
+                  <output id="area-value" for="area">90 м²</output></label
+                ><input
+                  type="range"
+                  id="area"
+                  min="60"
+                  max="180"
+                  step="5"
+                  value="90"
+                /><span class="label">РАСЧЁТНАЯ СТОИМОСТЬ</span
+                ><strong id="price-value" aria-live="polite">585 000 ₽</strong>
+                <p id="rate-note">
+                  По базовой ставке из брифа. Финальные условия определяет
+                  студия.
+                </p>
+              </div>
+            </div>
+          </article>
+          <div class="attention">
+            <span class="attention-icon" aria-hidden="true">!</span>
+            <div>
+              <strong>До бюджета — договориться об экономике.</strong>
+              <p>
+                Нужны маржа, допустимая стоимость привлечения договора (CAC) и
+                реальная воронка продаж. На их основе можно рассчитать рекламный
+                бюджет и ориентиры стоимости заявки.
+              </p>
+            </div>
+            <a href="#decisions"
+              >Что согласовать
+              <svg class="arrow-icon" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M4 12 12 4M4 4h8v8" /></svg
+            ></a>
+          </div>
+        </section>
+        <section id="campaigns">
+          <div class="section-title">
+            <div>
+              <span class="label">02 / АРХИТЕКТУРА РЕКЛАМЫ</span>
+              <h2>Каждому намерению — своё сообщение.</h2>
+              <p>
+                Разделяем запросы, объявления и посадочные. Не смешиваем Поиск и
+                РСЯ в первом тесте.
+              </p>
+            </div>
+          </div>
+          <div class="section-toolbar">
+            <div class="filters" aria-label="Фильтр кампаний">
+              <button class="selected" data-priority="all" aria-pressed="true">
+                Все направления <span>6</span></button
+              ><button data-priority="Высокий" aria-pressed="false">
+                Высокий <span>3</span></button
+              ><button data-priority="Средний" aria-pressed="false">
+                Средний <span>2</span></button
+              ><button data-priority="Низкий" aria-pressed="false">
+                Позже <span>1</span>
+              </button>
+            </div>
+            <span class="muted small" id="campaign-count" aria-live="polite"
+              >6 направлений</span
+            >
+          </div>
+          <div class="campaign-grid">
+            <article class="campaign" data-priority="Высокий">
+              <div class="campaign-top">
+                <span class="mono">C1</span
+                ><span class="tag green">Высокий приоритет</span>
+              </div>
+              <h3>Дизайн + реализация квартир</h3>
+              <p>Главный коммерческий контур</p>
+              <div class="query">
+                дизайн+ремонт, интерьер под ключ, ремонт по дизайн-проекту
+              </div>
+            </article>
+            <article class="campaign" data-priority="Высокий">
+              <div class="campaign-top">
+                <span class="mono">C2</span
+                ><span class="tag green">Высокий приоритет</span>
+              </div>
+              <h3>Дизайн-проект квартир</h3>
+              <p>Перехват тех, кто ищет проектирование</p>
+              <div class="query">
+                дизайн-проект, студия дизайна, дизайнер квартиры
+              </div>
+            </article>
+            <article class="campaign" data-priority="Высокий">
+              <div class="campaign-top">
+                <span class="mono">C3</span
+                ><span class="tag green">Высокий приоритет</span>
+              </div>
+              <h3>Дома / коттеджи</h3>
+              <p>Крупный чек и большие площади</p>
+              <div class="query">
+                дизайн дома, интерьер коттеджа, ремонт дома
+              </div>
+            </article>
+            <article class="campaign" data-priority="Средний">
+              <div class="campaign-top">
+                <span class="mono">C4</span
+                ><span class="tag amber">Средний приоритет</span>
+              </div>
+              <h3>Премиальные ЖК</h3>
+              <p>Высокорелевантный локальный слой</p>
+              <div class="query">название ЖК + дизайн / ремонт</div>
+            </article>
+            <article class="campaign" data-priority="Средний">
+              <div class="campaign-top">
+                <span class="mono">C5</span
+                ><span class="tag amber">Средний приоритет</span>
+              </div>
+              <h3>Бренд</h3>
+              <p>Защита навигационного спроса</p>
+              <div class="query">название студии / архитектора</div>
+            </article>
+            <article class="campaign" data-priority="Низкий">
+              <div class="campaign-top">
+                <span class="mono">C6</span
+                ><span class="tag">Низкий приоритет</span>
+              </div>
+              <h3>Коммерческие пространства</h3>
+              <p>Отдельная B2B-воронка</p>
+              <div class="query">дизайн офиса, ресторана, шоурума</div>
+            </article>
+          </div>
+          <div class="two-col strategy-reasons">
+            <div>
+              <span class="label">ПОЧЕМУ ПОИСК</span>
+              <h3 class="serif-title">
+                Приходим в момент,<br />когда нас уже ищут.
+              </h3>
+              <p>
+                Продаём не минимальную цену, а предсказуемость результата,
+                сильные кейсы и одну ответственную команду.
+              </p>
+              <div class="inline-note">
+                РСЯ и коммерческие пространства — возможное расширение после
+                проверки качества стартового спроса.
+              </div>
+            </div>
+            <div>
+              <article class="reason">
+                <span class="mono">01</span>
+                <div>
+                  <h3>Высокое коммерческое намерение</h3>
+                  <p>
+                    Поиск в Яндексе перехватывает людей в момент, когда они уже
+                    ищут дизайн-проект, ремонт под ключ или конкретного
+                    исполнителя в Уфе.
+                  </p>
+                </div>
+              </article>
+              <article class="reason">
+                <span class="mono">02</span>
+                <div>
+                  <h3>Можно отбирать дорогие проекты</h3>
+                  <p>
+                    Через семантику, минус-логику, объявления и форму на сайте
+                    мы фильтруем слабый спрос и фокусируемся на объектах нужного
+                    класса.
+                  </p>
+                </div>
+              </article>
+              <article class="reason">
+                <span class="mono">03</span>
+                <div>
+                  <h3>Хорошая объяснимость для клиента</h3>
+                  <p>
+                    Поисковая стратегия легко объясняется: есть намерение
+                    <svg
+                      class="arrow-icon"
+                      viewBox="0 0 16 16"
+                      aria-hidden="true"
+                    >
+                      <path d="M2 8h12M9 3l5 5-5 5" />
+                    </svg>
+                    есть релевантное сообщение
+                    <svg
+                      class="arrow-icon"
+                      viewBox="0 0 16 16"
+                      aria-hidden="true"
+                    >
+                      <path d="M2 8h12M9 3l5 5-5 5" />
+                    </svg>
+                    есть страница
+                    <svg
+                      class="arrow-icon"
+                      viewBox="0 0 16 16"
+                      aria-hidden="true"
+                    >
+                      <path d="M2 8h12M9 3l5 5-5 5" />
+                    </svg>
+                    есть понятная заявка.
+                  </p>
+                </div>
+              </article>
+              <article class="reason">
+                <span class="mono">04</span>
+                <div>
+                  <h3>Легче связать с бизнес-сигналами</h3>
+                  <p>
+                    Поиск удобнее привязывать к квалифицированным лидам,
+                    встречам и договорам, чем более «широкие» каналы.
+                  </p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+        <section id="audience">
+          <div class="section-title">
+            <div>
+              <span class="label">03 / КТО НАШ КЛИЕНТ</span>
+              <h2>Четыре ситуации. Разные аргументы.</h2>
+              <p>
+                Рабочие гипотезы из брифа. Их нужно проверить по качеству
+                реальных обращений.
+              </p>
+            </div>
+          </div>
+          <div
+            class="audience-tabs"
+            role="tablist"
+            aria-label="Сегменты аудитории"
+          >
+            <button
+              role="tab"
+              id="tab-0"
+              aria-controls="audience-panel"
+              aria-selected="true"
+              data-audience="0"
+            >
+              Новая квартира</button
+            ><button
+              role="tab"
+              id="tab-1"
+              aria-controls="audience-panel"
+              aria-selected="false"
+              tabindex="-1"
+              data-audience="1"
+            >
+              Премиальный ЖК</button
+            ><button
+              role="tab"
+              id="tab-2"
+              aria-controls="audience-panel"
+              aria-selected="false"
+              tabindex="-1"
+              data-audience="2"
+            >
+              Дом и коттедж</button
+            ><button
+              role="tab"
+              id="tab-3"
+              aria-controls="audience-panel"
+              aria-selected="false"
+              tabindex="-1"
+              data-audience="3"
+            >
+              Только проект
+            </button>
+          </div>
+          <div
+            id="audience-panel"
+            class="audience-panel panel"
+            role="tabpanel"
+            aria-labelledby="tab-0"
+            tabindex="0"
+          ></div>
+          <h3 class="subsection-title">За какой результат платит клиент</h3>
+          <p class="muted">
+            Раскройте сценарий, чтобы увидеть задачу, мотивы и момент принятия
+            решения.
+          </p>
+          <div class="jobs">
+            <details>
+              <summary>
+                Когда я купил квартиру в новом ЖК, помогите мне превратить
+                пустое пространство в готовый интерьер без необходимости самому
+                координировать 5–7 разных подрядчиков.
+              </summary>
+              <div class="job-grid">
+                <div>
+                  <h4>Что нужно сделать</h4>
+                  <ul>
+                    <li>Получить дизайн-проект</li>
+                    <li>Понять порядок работ</li>
+                    <li>Получить одну ответственную команду</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4>Что хочет почувствовать</h4>
+                  <ul>
+                    <li>Снять тревогу и хаос</li>
+                    <li>Чувствовать контроль</li>
+                    <li>
+                      Не бояться, что результат будет не как на визуализации
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h4>Когда начинает искать</h4>
+                  <ul>
+                    <li>Ключи на руках</li>
+                    <li>Начинается ремонт</li>
+                    <li>Нужно быстро принять решения</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+            <details>
+              <summary>
+                Когда я делаю ремонт в дорогой квартире или доме, помогите мне
+                избежать ошибок, переделок и бессмысленных переплат на
+                материалах и мебели.
+              </summary>
+              <div class="job-grid">
+                <div>
+                  <h4>Что нужно сделать</h4>
+                  <ul>
+                    <li>Точные чертежи</li>
+                    <li>Комплектация</li>
+                    <li>Контроль реализации</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4>Что хочет почувствовать</h4>
+                  <ul>
+                    <li>Уверенность, что не упущу важное</li>
+                    <li>Спокойствие по бюджету и срокам</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4>Когда начинает искать</h4>
+                  <ul>
+                    <li>Сложный объект</li>
+                    <li>Большая площадь</li>
+                    <li>Предыдущий негативный опыт ремонта</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+            <details>
+              <summary>
+                Когда я хочу интерьер под свой стиль жизни, помогите мне
+                получить не просто красивые картинки, а пространство, в котором
+                удобно жить и которое действительно реализуемо.
+              </summary>
+              <div class="job-grid">
+                <div>
+                  <h4>Что нужно сделать</h4>
+                  <ul>
+                    <li>Концепция + функциональность</li>
+                    <li>3D-визуализации</li>
+                    <li>Реализуемые решения</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4>Что хочет почувствовать</h4>
+                  <ul>
+                    <li>Радость ожидания результата</li>
+                    <li>Уверенность, что меня услышали</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4>Когда начинает искать</h4>
+                  <ul>
+                    <li>Новая квартира</li>
+                    <li>Переезд семьи</li>
+                    <li>Желание обновить образ жизни</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+        </section>
+        <section id="tools">
+          <div class="section-title">
+            <div>
+              <span class="label">04 / ЧЕМ РЕАЛИЗУЕМ</span>
+              <h2>Инструменты с понятной ролью.</h2>
+              <p>
+                От контроля поисковых запросов до передачи в рекламу сигналов о
+                договорах.
+              </p>
+            </div>
+          </div>
+          <div class="tool-grid">
+            <article class="tool" data-stage="Стратегия">
+              <span class="tag">Стратегия</span>
+              <h3>ЕПК с местом показа только Поиск</h3>
+              <p>
+                Чтобы не смешивать поисковый спрос с РСЯ и сохранить чистоту
+                первого теста.
+              </p>
+            </article>
+            <article class="tool" data-stage="Охват">
+              <span class="tag">Охват</span>
+              <h3>Автотаргетинг на поиске</h3>
+              <p>
+                Нужен для актуальной механики Директа; помогает находить
+                дополнительные формулировки намерения, но требует контроля
+                категорий и запросов.
+              </p>
+            </article>
+            <article class="tool" data-stage="Охват">
+              <span class="tag">Охват</span>
+              <h3>Кластеры запросов</h3>
+              <p>
+                Разделяем квартиры, дома, ЖК, стоимость, дизайн+реализация и
+                чистый дизайн-проект.
+              </p>
+            </article>
+            <article class="tool" data-stage="Качество">
+              <span class="tag">Качество</span>
+              <h3>Минус-фразы и чистка запросов</h3>
+              <p>
+                Отсекаем обучение, вакансии, ‘дёшево’, DIY, картинки, софт и
+                прочий нерелевантный спрос.
+              </p>
+            </article>
+            <article class="tool" data-stage="Объявления">
+              <span class="tag">Объявления</span>
+              <h3>Ссылки / уточнения / быстрые преимущества</h3>
+              <p>
+                Повышают информативность объявления и позволяют до клика
+                показать формат работы, акцию, типы объектов и преимущества.
+              </p>
+            </article>
+            <article class="tool" data-stage="Конверсия">
+              <span class="tag">Конверсия</span>
+              <h3>Отдельные посадочные под сценарии</h3>
+              <p>
+                Намерение «дизайн квартиры» и намерение «дом под ключ» требуют
+                разных доказательств и кейсов.
+              </p>
+            </article>
+            <article class="tool" data-stage="Аналитика">
+              <span class="tag">Аналитика</span>
+              <h3>Яндекс.Метрика</h3>
+              <p>
+                Нужна для контроля поведения, заявок, качества трафика и связки
+                с рекламой.
+              </p>
+            </article>
+            <article class="tool" data-stage="Аналитика">
+              <span class="tag">Аналитика</span>
+              <h3>Офлайн-конверсии</h3>
+              <p>
+                Позволяют обучать рекламу не на любой форме, а на
+                квалифицированном обращении, встрече и договоре.
+              </p>
+            </article>
+            <article class="tool" data-stage="Аналитика">
+              <span class="tag">Аналитика</span>
+              <h3>CRM-статусы</h3>
+              <p>
+                Без этого невозможно отличить спам/слабый лид от действительно
+                ценного обращения.
+              </p>
+            </article>
+            <article class="tool" data-stage="Масштабирование">
+              <span class="tag">Масштабирование</span>
+              <h3>Пакетные / конверсионные стратегии позже</h3>
+              <p>
+                Имеют смысл после накопления понятного бизнес-сигнала; на старте
+                нельзя имитировать достаточную статистику.
+              </p>
+            </article>
+          </div>
+          <div class="pipeline" aria-label="Путь от рекламы к результату">
+            <span>Поисковый запрос</span
+            ><i
+              ><svg class="arrow-icon" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M2 8h12M9 3l5 5-5 5" /></svg></i
+            ><span>Посадочная</span
+            ><i
+              ><svg class="arrow-icon" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M2 8h12M9 3l5 5-5 5" /></svg></i
+            ><span>Обращение</span
+            ><i
+              ><svg class="arrow-icon" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M2 8h12M9 3l5 5-5 5" /></svg></i
+            ><span>Квалификация</span
+            ><i
+              ><svg class="arrow-icon" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M2 8h12M9 3l5 5-5 5" /></svg></i
+            ><strong>Встреча и договор</strong>
+          </div>
+        </section>
+        <section id="launch">
+          <div class="section-title">
+            <div>
+              <span class="label">05 / ДОРОЖНАЯ КАРТА</span>
+              <h2>Запускаем последовательно.</h2>
+              <p>
+                Это порядок работ, а не обещание сроков. Даты фиксируем после
+                согласования материалов и доступов.
+              </p>
+            </div>
+          </div>
+          <div class="steps">
+            <article class="step">
+              <span class="step-number">01</span>
+              <div>
+                <h3>Оффер и кейсы</h3>
+                <p>
+                  Подтвердить состав услуги, условия цены и права на публикацию
+                  проектов.
+                </p>
+              </div>
+            </article>
+            <article class="step">
+              <span class="step-number">02</span>
+              <div>
+                <h3>Сайт и аналитика</h3>
+                <p>
+                  Подготовить страницы, Метрику, цели, CRM и передачу
+                  офлайн-конверсий.
+                </p>
+              </div>
+            </article>
+            <article class="step">
+              <span class="step-number">03</span>
+              <div>
+                <h3>Кампании и запросы</h3>
+                <p>
+                  Разделить типы объектов и намерения; исключить нерелевантные
+                  запросы.
+                </p>
+              </div>
+            </article>
+            <article class="step">
+              <span class="step-number">04</span>
+              <div>
+                <h3>Ограниченный тест</h3>
+                <p>
+                  Запустить согласованные контуры и проверить качество запросов
+                  и обращений.
+                </p>
+              </div>
+            </article>
+            <article class="step">
+              <span class="step-number">05</span>
+              <div>
+                <h3>Проверка качества</h3>
+                <p>
+                  Оценить квалификацию лидов, встречи, договоры и фактическую
+                  экономику.
+                </p>
+              </div>
+            </article>
+            <article class="step">
+              <span class="step-number">06</span>
+              <div>
+                <h3>Масштабирование</h3>
+                <p>
+                  Увеличивать объём только после подтверждения качества и
+                  допустимого CAC.
+                </p>
+              </div>
+            </article>
+          </div>
+        </section>
+        <section id="decisions">
+          <div class="section-title">
+            <div>
+              <span class="label">06 / ВНИМАНИЕ ЗАКАЗЧИКА</span>
+              <h2>Шесть решений перед запуском.</h2>
+              <p>
+                Отметьте пункты, которые уже обсудили с командой. Это личный
+                список в вашем браузере.
+              </p>
+            </div>
+            <div class="check-progress">
+              <strong id="check-count" aria-live="polite">0 / 6</strong
+              ><span>обсуждено</span>
+            </div>
+          </div>
+          <div class="decision-grid">
+            <div class="checklist">
+              <label class="check-item"
+                ><input type="checkbox" data-check="0" /><span
+                  ><strong>Рекламная посадочная</strong
+                  ><small
+                    >Какой сайт или лендинг используется для рекламы, и какие
+                    страницы уже существуют?</small
+                  ></span
+                ></label
+              ><label class="check-item"
+                ><input type="checkbox" data-check="1" /><span
+                  ><strong>Критерий хорошего лида</strong
+                  ><small
+                    >Как формально определяется квалифицированный лид?</small
+                  ></span
+                ></label
+              ><label class="check-item"
+                ><input type="checkbox" data-check="2" /><span
+                  ><strong>Экономика проекта</strong
+                  ><small
+                    >Какова средняя маржа по дизайн-проекту и по реализации, и
+                    какой CAC приемлем?</small
+                  ></span
+                ></label
+              ><label class="check-item"
+                ><input type="checkbox" data-check="3" /><span
+                  ><strong>Воронка продаж</strong
+                  ><small
+                    >Какая текущая воронка: лид
+                    <svg
+                      class="arrow-icon"
+                      viewBox="0 0 16 16"
+                      aria-hidden="true"
+                    >
+                      <path d="M2 8h12M9 3l5 5-5 5" />
+                    </svg>
+                    квалификация
+                    <svg
+                      class="arrow-icon"
+                      viewBox="0 0 16 16"
+                      aria-hidden="true"
+                    >
+                      <path d="M2 8h12M9 3l5 5-5 5" />
+                    </svg>
+                    встреча
+                    <svg
+                      class="arrow-icon"
+                      viewBox="0 0 16 16"
+                      aria-hidden="true"
+                    >
+                      <path d="M2 8h12M9 3l5 5-5 5" />
+                    </svg>
+                    договор
+                    <svg
+                      class="arrow-icon"
+                      viewBox="0 0 16 16"
+                      aria-hidden="true"
+                    >
+                      <path d="M2 8h12M9 3l5 5-5 5" />
+                    </svg>
+                    оплата?</small
+                  ></span
+                ></label
+              ><label class="check-item"
+                ><input type="checkbox" data-check="4" /><span
+                  ><strong>Кейсы и доказательства</strong
+                  ><small
+                    >Какие кейсы и доказательства по ЖК и реализованным проектам
+                    готовы к публикации?</small
+                  ></span
+                ></label
+              ><label class="check-item"
+                ><input type="checkbox" data-check="5" /><span
+                  ><strong>Обработка обращений</strong
+                  ><small
+                    >Кто обрабатывает лиды и как быстро отвечает?</small
+                  ></span
+                ></label
+              >
+            </div>
+            <aside class="decision-note">
+              <span class="label">ВАЖНО СОГЛАСОВАТЬ</span>
+              <h3>Что для вас —<br />хороший лид?</h3>
+              <p>
+                Объект, площадь, бюджет, состав услуги и срок начала работ.
+                Зафиксируйте критерии до старта: они определят, на какой
+                результат ориентируется реклама.
+              </p>
+              <hr />
+              <h4>Не терять сигнал после заявки</h4>
+              <p>
+                У каждого обращения должен быть статус в CRM. Без квалификации и
+                обратной связи невозможно оценить результат рекламы.
+              </p>
+              <span class="decision-tag">Следующий шаг — совместный бриф</span>
+            </aside>
+          </div>
+        </section>
+        <section id="sources" class="sources-section">
+          <details>
+            <summary>
+              <span>Источники и границы расчётов</span
+              ><span class="muted"
+                >9 материалов
+                <svg class="arrow-icon" viewBox="0 0 16 16" aria-hidden="true">
+                  <path d="M4 12 12 4M4 4h8v8" /></svg
+              ></span>
+            </summary>
+            <p>
+              Параметры услуги и загрузки взяты из исходного брифа. Сегменты
+              аудитории — гипотезы. Графики отражают структуру стратегии и
+              арифметику стоимости проекта, а не фактические результаты
+              рекламных кампаний. Скидочная ставка около 5 000 ₽/м² и ниже
+              возможна по согласованию для больших площадей.
+            </p>
+            <div class="source-links">
+              <a
+                href="https://yandex.ru/support/direct/ru/unified-performance-campaign/create-campaign"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><span>Яндекс Директ — создание Единой перфоманс-кампании</span
+                ><span aria-hidden="true"
+                  ><svg
+                    class="arrow-icon"
+                    viewBox="0 0 16 16"
+                    aria-hidden="true"
+                  >
+                    <path d="M4 12 12 4M4 4h8v8" /></svg></span></a
+              ><a
+                href="https://yandex.ru/support/direct/ru/troubleshooting/shows"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><span>Яндекс Директ — показ объявлений и места показа</span
+                ><span aria-hidden="true"
+                  ><svg
+                    class="arrow-icon"
+                    viewBox="0 0 16 16"
+                    aria-hidden="true"
+                  >
+                    <path d="M4 12 12 4M4 4h8v8" /></svg></span></a
+              ><a
+                href="https://yandex.ru/support/direct/ru/impression-criteria/autotargeting-upc"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><span>Яндекс Директ — автотаргетинг в ЕПК</span
+                ><span aria-hidden="true"
+                  ><svg
+                    class="arrow-icon"
+                    viewBox="0 0 16 16"
+                    aria-hidden="true"
+                  >
+                    <path d="M4 12 12 4M4 4h8v8" /></svg></span></a
+              ><a
+                href="https://yandex.ru/support/metrica/ru/data/offline-conversion.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><span>Яндекс Метрика — офлайн-конверсии</span
+                ><span aria-hidden="true"
+                  ><svg
+                    class="arrow-icon"
+                    viewBox="0 0 16 16"
+                    aria-hidden="true"
+                  >
+                    <path d="M4 12 12 4M4 4h8v8" /></svg></span></a
+              ><a
+                href="https://www.yandex.ru/support/metrica/ru/reports/offline-conversions"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><span>Яндекс Метрика — отчёт по офлайн-конверсиям</span
+                ><span aria-hidden="true"
+                  ><svg
+                    class="arrow-icon"
+                    viewBox="0 0 16 16"
+                    aria-hidden="true"
+                  >
+                    <path d="M4 12 12 4M4 4h8v8" /></svg></span></a
+              ><a
+                href="https://realty.rbc.ru/news/6020d4969a7947dac2d4804e"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><span
+                  >РБК Недвижимость — Что надо знать о дизайн-проекте
+                  квартиры</span
+                ><span aria-hidden="true"
+                  ><svg
+                    class="arrow-icon"
+                    viewBox="0 0 16 16"
+                    aria-hidden="true"
+                  >
+                    <path d="M4 12 12 4M4 4h8v8" /></svg></span></a
+              ><a
+                href="https://realty.rbc.ru/news/62bb08859a7947aff7f3217f"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><span
+                  >РБК Недвижимость — Дизайн-проект квартиры: что это и для чего
+                  нужен</span
+                ><span aria-hidden="true"
+                  ><svg
+                    class="arrow-icon"
+                    viewBox="0 0 16 16"
+                    aria-hidden="true"
+                  >
+                    <path d="M4 12 12 4M4 4h8v8" /></svg></span></a
+              ><a
+                href="https://www.cian.ru/stati-kak-najti-idealnogo-dizajnera-interera-poshagovoe-rukovodstvo-po-vyboru-340923/"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><span
+                  >ЦИАН — Как выбрать дизайнера интерьера для квартиры и
+                  дома</span
+                ><span aria-hidden="true"
+                  ><svg
+                    class="arrow-icon"
+                    viewBox="0 0 16 16"
+                    aria-hidden="true"
+                  >
+                    <path d="M4 12 12 4M4 4h8v8" /></svg></span></a
+              ><a
+                href="https://ufa.domclick.ru/novostrojki/elitnye"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><span>Domclick — элитные новостройки Уфы</span
+                ><span aria-hidden="true"
+                  ><svg
+                    class="arrow-icon"
+                    viewBox="0 0 16 16"
+                    aria-hidden="true"
+                  >
+                    <path d="M4 12 12 4M4 4h8v8" /></svg></span
+              ></a>
+            </div>
+          </details>
+        </section>
+        <footer>
+          <a class="footer-brand" href="#overview">ZAIN DESIGN</a
+          ><span>Стратегия Яндекс.Директ · Уфа · 2026</span
+          ><a href="#overview"
+            >К началу
+            <svg class="arrow-icon" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M8 13V3M3 8l5-5 5 5" /></svg
+          ></a>
+        </footer>
+      </main>
     </div>
-  </nav>
-
-  <header class="hero">
-    <div class="wrap hero-grid">
-      <section class="panel hero-card">
-        <div class="eyebrow">Поиск Яндекс.Директа • визуальная версия стратегии • 20 октября 2026</div>
-        <h1 class="display">Интерактивная стратегия Яндекс.Директ</h1>
-        <p class="lead">
-          Небольшой эстетичный интерактивный документ для клиента: <strong>почему мы идём в поиск Яндекса</strong>,
-          <strong>как будет устроена стратегия</strong>, <strong>какие инструменты внутри используем</strong>,
-          и <strong>какие сегменты аудитории и JTBD лежат в основе стратегии</strong>.
-        </p>
-        <div class="cta-row">
-          <a class="btn primary" href="#campaigns">Смотреть стратегию</a>
-          <a class="btn secondary" href="#sources">Источники</a>
-        </div>
-      </section>
-      <aside class="panel stats">
-        <div class="stat">
-          <div class="k">1</div>
-          <div class="t">главный канал старта: <strong>Поиск Яндекс.Директа</strong> без смешения с РСЯ</div>
-        </div>
-        <div class="stat">
-          <div class="k">4</div>
-          <div class="t">основных сегмента предполагаемой ЦА, на которых строится коммуникация</div>
-        </div>
-        <div class="stat">
-          <div class="k">6</div>
-          <div class="t">рекламных контуров в карте кампаний: от квартир и домов до слоя по премиальным ЖК</div>
-        </div>
-        <div class="stat">
-          <div class="k">10</div>
-          <div class="t">инструментов внутри Директа и аналитики, которые используются осознанно, а не «по шаблону»</div>
-        </div>
-      </aside>
-    </div>
-  </header>
-
-  <main class="wrap">
-
-    <section class="section">
-      <div class="callout">
-        <h3>Ключевая логика стратегии</h3>
-        <p>
-          Мы не продвигаем «дизайн интерьера вообще». Мы строим систему поиска редких и дорогих проектов:
-          <strong>когда у человека уже есть объект и намерение заказать проект</strong>, реклама должна привести его
-          на страницу, где он увидит релевантные кейсы, понятный формат работы, прозрачный оффер и следующий шаг — встречу.
-          Главная цель — не просто лид, а <strong>квалифицированное обращение</strong>.
-        </p>
-      </div>
-    </section>
-
-    <section id="why" class="section">
-      <div class="section-head">
-        <div>
-          <h2>Почему именно Яндекс.Директ и почему именно Поиск</h2>
-          <p class="sub">Мы идём туда, где видно коммерческое намерение, проще управлять качеством трафика и легче доказать логику бизнесу.</p>
-        </div>
-      </div>
-      <div class="grid grid-4">
-        
-        <article class="card soft">
-          <div class="badge">Причина</div>
-          <h3>Высокое коммерческое намерение</h3>
-          <p>Поиск в Яндексе перехватывает людей в момент, когда они уже ищут дизайн-проект, ремонт под ключ или конкретного исполнителя в Уфе.</p>
-        </article>
-        <article class="card soft">
-          <div class="badge">Причина</div>
-          <h3>Можно отбирать дорогие проекты</h3>
-          <p>Через семантику, минус-логику, объявления и форму на сайте мы фильтруем слабый спрос и фокусируемся на объектах нужного класса.</p>
-        </article>
-        <article class="card soft">
-          <div class="badge">Причина</div>
-          <h3>Хорошая объяснимость для клиента</h3>
-          <p>Поисковая стратегия легко объясняется: есть намерение → есть релевантное сообщение → есть страница → есть понятная заявка.</p>
-        </article>
-        <article class="card soft">
-          <div class="badge">Причина</div>
-          <h3>Легче связать с бизнес-сигналами</h3>
-          <p>Поиск удобнее привязывать к квалифицированным лидам, встречам и договорам, чем более «широкие» каналы.</p>
-        </article>
-      </div>
-      <small class="source">Основание: логика стратегии + актуальная официальная документация Яндекс Директа и Метрики.</small>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <h2>Что именно продаём в рекламе</h2>
-          <p class="sub">Не набор красивых обещаний, а конкретный формат сотрудничества с понятными условиями.</p>
-        </div>
-      </div>
-      <div class="grid grid-2">
-        <div class="card">
-          <h3>Основной продукт</h3>
-          <p><strong>Комплексная услуга: дизайн интерьера + реализация под ключ</strong></p>
-          <div class="kpi-row" style="margin-top:16px">
-            <div class="kpi"><strong>от 60 м²</strong><span class="mini">желаемый минимальный объект</span></div>
-            <div class="kpi"><strong>Базово 6 500 ₽/м²; гибко до ~5 000 ₽/м² и ниже на больших площадях</strong><span class="mini">ценообразование</span></div>
-            <div class="kpi"><strong>до 5 новых проектов в месяц, приоритет 2–3 крупных</strong><span class="mini">мощность студии</span></div>
-          </div>
-        </div>
-        <div class="card">
-          <h3>Какой оффер выносим вперёд</h3>
-          <p>
-            Клиент получает <strong>не просто дизайн-проект</strong>, а возможность довести его до реализации
-            с одной командой специалистов. Акция усиливает оффер: <strong>комплектация объекта и авторское сопровождение 4 месяца</strong>
-            — в подарок, если ремонт идёт с рекомендованной бригадой и поставщиками.
-          </p>
-          <small class="source">Важно: в публичной версии рекламы и сайта условия акции должны быть раскрыты без двусмысленности.</small>
-        </div>
-      </div>
-    </section>
-
-    <section id="campaigns" class="section">
-      <div class="section-head">
-        <div>
-          <h2>Карта рекламных контуров</h2>
-          <p class="sub">Не дробим бюджет хаотично. Делим контуры только там, где реально различаются намерение, оффер, кейсы и экономика.</p>
-        </div>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr><th>ID</th><th>Контур</th><th>Приоритет</th><th>Роль</th><th>Намерение</th></tr>
-          </thead>
-          <tbody>
-            <tr><td><strong>C1</strong></td><td>Дизайн + реализация квартир</td><td>Высокий</td><td>Главный коммерческий контур</td><td>дизайн+ремонт, интерьер под ключ, ремонт по дизайн-проекту</td></tr><tr><td><strong>C2</strong></td><td>Дизайн-проект квартир</td><td>Высокий</td><td>Перехват тех, кто ищет проектирование</td><td>дизайн-проект, студия дизайна, дизайнер квартиры</td></tr><tr><td><strong>C3</strong></td><td>Дома / коттеджи</td><td>Высокий</td><td>Крупный чек и большие площади</td><td>дизайн дома, интерьер коттеджа, ремонт дома</td></tr><tr><td><strong>C4</strong></td><td>Премиальные ЖК</td><td>Средний</td><td>Высокорелевантный локальный слой</td><td>название ЖК + дизайн / ремонт</td></tr><tr><td><strong>C5</strong></td><td>Бренд</td><td>Средний</td><td>Защита навигационного спроса</td><td>название студии / архитектора</td></tr><tr><td><strong>C6</strong></td><td>Коммерческие пространства</td><td>Низкий</td><td>Отдельная B2B-воронка</td><td>дизайн офиса, ресторана, шоурума</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <div>
-          <h2>Логика принятия решения внутри воронки</h2>
-          <p class="sub">Клиенту должно быть понятно, как реклама превращается в встречу и договор.</p>
-        </div>
-      </div>
-      <div class="flow">
-        <div class="node"><strong>Намерение</strong><p class="mini">Человек ищет дизайн-проект или реализацию в Уфе.</p></div>
-        <div class="node"><strong>Объявление</strong><p class="mini">Получает понятный оффер: проект + реализация / кейсы / акция.</p></div>
-        <div class="node"><strong>Посадочная</strong><p class="mini">Видит доказательства: кейсы, процессы, условия, типы объектов.</p></div>
-        <div class="node"><strong>Квалификация</strong><p class="mini">Оставляет заявку с параметрами объекта, площади и формата задачи.</p></div>
-        <div class="node"><strong>CRM-сигнал</strong><p class="mini">В рекламу возвращается качество лида, встреча и договор.</p></div>
-      </div>
-    </section>
-
-    <section id="tools" class="section">
-      <div class="section-head">
-        <div>
-          <h2>Какие инструменты мы используем внутри Директа и аналитики</h2>
-          <p class="sub">Ниже — не набор терминов, а карта конкретных механизмов: что используем и почему именно это имеет смысл для данного бизнеса.</p>
-        </div>
-      </div>
-
-      <div class="tool-filters">
-        <button class="filter-btn active" data-filter="all">Все</button>
-        <button class="filter-btn" data-filter="Стратегия">Стратегия</button>
-        <button class="filter-btn" data-filter="Охват">Охват</button>
-        <button class="filter-btn" data-filter="Качество">Качество</button>
-        <button class="filter-btn" data-filter="Объявления">Объявления</button>
-        <button class="filter-btn" data-filter="Конверсия">Конверсия</button>
-        <button class="filter-btn" data-filter="Аналитика">Аналитика</button>
-        <button class="filter-btn" data-filter="Масштабирование">Масштабирование</button>
-      </div>
-
-      <div class="tool-grid" id="toolGrid">
-        
-        <article class="tool-card" data-stage="Стратегия">
-          <div class="stage">Стратегия</div>
-          <h3>ЕПК с местом показа только Поиск</h3>
-          <p>Чтобы не смешивать поисковый спрос с РСЯ и сохранить чистоту первого теста.</p>
-        </article>
-        <article class="tool-card" data-stage="Охват">
-          <div class="stage">Охват</div>
-          <h3>Автотаргетинг на поиске</h3>
-          <p>Нужен для актуальной механики Директа; помогает находить дополнительные формулировки намерения, но требует контроля категорий и запросов.</p>
-        </article>
-        <article class="tool-card" data-stage="Охват">
-          <div class="stage">Охват</div>
-          <h3>Кластеры запросов</h3>
-          <p>Разделяем квартиры, дома, ЖК, стоимость, дизайн+реализация и чистый дизайн-проект.</p>
-        </article>
-        <article class="tool-card" data-stage="Качество">
-          <div class="stage">Качество</div>
-          <h3>Минус-фразы и чистка запросов</h3>
-          <p>Отсекаем обучение, вакансии, ‘дёшево’, DIY, картинки, софт и прочий нерелевантный спрос.</p>
-        </article>
-        <article class="tool-card" data-stage="Объявления">
-          <div class="stage">Объявления</div>
-          <h3>Ссылки / уточнения / быстрые преимущества</h3>
-          <p>Повышают информативность объявления и позволяют до клика показать формат работы, акцию, типы объектов и преимущества.</p>
-        </article>
-        <article class="tool-card" data-stage="Конверсия">
-          <div class="stage">Конверсия</div>
-          <h3>Отдельные посадочные под сценарии</h3>
-          <p>Намерение «дизайн квартиры» и намерение «дом под ключ» требуют разных доказательств и кейсов.</p>
-        </article>
-        <article class="tool-card" data-stage="Аналитика">
-          <div class="stage">Аналитика</div>
-          <h3>Яндекс.Метрика</h3>
-          <p>Нужна для контроля поведения, заявок, качества трафика и связки с рекламой.</p>
-        </article>
-        <article class="tool-card" data-stage="Аналитика">
-          <div class="stage">Аналитика</div>
-          <h3>Офлайн-конверсии</h3>
-          <p>Позволяют обучать рекламу не на любой форме, а на квалифицированном обращении, встрече и договоре.</p>
-        </article>
-        <article class="tool-card" data-stage="Аналитика">
-          <div class="stage">Аналитика</div>
-          <h3>CRM-статусы</h3>
-          <p>Без этого невозможно отличить спам/слабый лид от действительно ценного обращения.</p>
-        </article>
-        <article class="tool-card" data-stage="Масштабирование">
-          <div class="stage">Масштабирование</div>
-          <h3>Пакетные / конверсионные стратегии позже</h3>
-          <p>Имеют смысл после накопления понятного бизнес-сигнала; на старте нельзя имитировать достаточную статистику.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="grid grid-2">
-        <div class="card">
-          <h3>Почему не начинаем с РСЯ</h3>
-          <p>
-            Для студии, которой нужны <strong>не частые дешёвые лиды, а редкие дорогие проекты</strong>, старт в поиске даёт более объяснимую воронку.
-            РСЯ можно подключать позже как расширение, когда уже понятны лучшие офферы, страницы и сигналы качества.
-          </p>
-        </div>
-        <div class="card">
-          <h3>Почему не делаем ставку на «минимальную цену»</h3>
-          <p>
-            На рынке есть более дешёвые предложения, поэтому борьба только ценой будет тянуть в слабый сегмент спроса.
-            В рекламе продаются: <strong>предсказуемость реализации, уровень проектов, удобство одной команды и снижение риска ошибок</strong>.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section id="audience" class="section">
-      <div class="section-head">
-        <div>
-          <h2>Предполагаемая целевая аудитория</h2>
-          <p class="sub">Это рабочая, рекламно значимая сегментация. Она опирается на бриф клиента, логику ниши и внешние материалы о роли дизайн-проекта и выборе дизайнеров.</p>
-        </div>
-      </div>
-      <div class="tabs" id="audTabs">
-        <button class="tab-btn active" data-tab="aud0">Собственник квартиры в новом ЖК</button><button class="tab-btn" data-tab="aud1">Собственник квартиры в премиальном ЖК</button><button class="tab-btn" data-tab="aud2">Собственник дома / коттеджа</button><button class="tab-btn" data-tab="aud3">Заказчик только дизайн-проекта</button>
-      </div>
-
-      
-      <div class="tab-panel active" id="aud0">
-        <div class="persona">
-          <div class="card">
-            <div class="badge">Главный стартовый сегмент</div>
-            <h3>Собственник квартиры в новом ЖК</h3>
-            <p>Уже купил квартиру или получил ключи, хочет быстро перейти от «коробки» к реализованному интерьеру без хаоса подрядчиков.</p>
-            <div class="bar"><span style="width:95%"></span></div>
-            <small class="source">Рекламная релевантность сегмента: 95%</small>
-          </div>
-          <div class="grid">
-            <div class="card">
-              <h3>Основные боли</h3>
-              <ul class="list">
-                <li>Много решений и мало времени</li><li>Страх ошибок на стройке</li><li>Не хочет координировать дизайнеров, бригаду и поставщиков</li>
-              </ul>
-            </div>
-            <div class="card">
-              <h3>Как может искать</h3>
-              <ul class="list">
-                <li>дизайн проект квартиры уфа</li><li>дизайн и ремонт квартиры уфа</li><li>интерьер под ключ уфа</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tab-panel" id="aud1">
-        <div class="persona">
-          <div class="card">
-            <div class="badge">Высокая релевантность</div>
-            <h3>Собственник квартиры в премиальном ЖК</h3>
-            <p>Ожидает более высокий уровень сервиса, эстетики и доказательств компетенции; лучше реагирует на кейсы и знание конкретного ЖК.</p>
-            <div class="bar"><span style="width:92%"></span></div>
-            <small class="source">Рекламная релевантность сегмента: 92%</small>
-          </div>
-          <div class="grid">
-            <div class="card">
-              <h3>Основные боли</h3>
-              <ul class="list">
-                <li>Нужен интерьер под статус и образ жизни</li><li>Важен предсказуемый результат</li><li>Не хочет объяснять одно и то же нескольким подрядчикам</li>
-              </ul>
-            </div>
-            <div class="card">
-              <h3>Как может искать</h3>
-              <ul class="list">
-                <li>дизайн квартиры жк прайм уфа</li><li>дизайн жк кристалл уфа</li><li>дизайнер интерьера премиум уфа</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tab-panel" id="aud2">
-        <div class="persona">
-          <div class="card">
-            <div class="badge">Крупный чек</div>
-            <h3>Собственник дома / коттеджа</h3>
-            <p>Большая площадь, больше рисков и координации; выше ценность комплексного ведения и архитектурной компетенции.</p>
-            <div class="bar"><span style="width:88%"></span></div>
-            <small class="source">Рекламная релевантность сегмента: 88%</small>
-          </div>
-          <div class="grid">
-            <div class="card">
-              <h3>Основные боли</h3>
-              <ul class="list">
-                <li>Много помещений и сценариев жизни</li><li>Техническая сложность</li><li>Высокая цена ошибки</li>
-              </ul>
-            </div>
-            <div class="card">
-              <h3>Как может искать</h3>
-              <ul class="list">
-                <li>дизайн интерьера дома уфа</li><li>дизайн коттеджа уфа</li><li>ремонт коттеджа под ключ уфа</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tab-panel" id="aud3">
-        <div class="persona">
-          <div class="card">
-            <div class="badge">Вторичный, но важный</div>
-            <h3>Заказчик только дизайн-проекта</h3>
-            <p>Пока не готов отдать реализацию одной команде, но ищет сильный проект. Этот сегмент можно аккуратно переводить в реализацию позже.</p>
-            <div class="bar"><span style="width:75%"></span></div>
-            <small class="source">Рекламная релевантность сегмента: 75%</small>
-          </div>
-          <div class="grid">
-            <div class="card">
-              <h3>Основные боли</h3>
-              <ul class="list">
-                <li>Боится переплатить</li><li>Сравнивает состав и цену проекта</li><li>Не всегда понимает ценность авторского сопровождения</li>
-              </ul>
-            </div>
-            <div class="card">
-              <h3>Как может искать</h3>
-              <ul class="list">
-                <li>стоимость дизайн проекта уфа</li><li>дизайн интерьера цена м2 уфа</li><li>студия дизайна интерьера уфа</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="jtbd" class="section">
-      <div class="section-head">
-        <div>
-          <h2>JTBD — зачем на самом деле нанимают такую студию</h2>
-          <p class="sub">JTBD нужен не для «теории», а для тонкой настройки оффера, объявлений и посадочных страниц. Ниже — jobs, которые действительно влияют на поиск и конверсию.</p>
-        </div>
-      </div>
-
-      <div class="accordion">
-        
-        <div class="acc-item open">
-          <div class="acc-head">
-            <strong>Когда я купил квартиру в новом ЖК, помогите мне превратить пустое пространство в готовый интерьер без необходимости самому координировать 5–7 разных подрядчиков.</strong>
-            <span>+</span>
-          </div>
-          <div class="acc-body">
-            <div class="grid grid-3">
-              <div class="card soft">
-                <div class="badge">Functional</div>
-                <h3>Функциональная работа</h3>
-                <ul class="list"><li>Получить дизайн-проект</li><li>Понять порядок работ</li><li>Получить одну ответственную команду</li></ul>
-              </div>
-              <div class="card soft">
-                <div class="badge">Emotional</div>
-                <h3>Эмоциональная работа</h3>
-                <ul class="list"><li>Снять тревогу и хаос</li><li>Чувствовать контроль</li><li>Не бояться, что результат будет не как на визуализации</li></ul>
-              </div>
-              <div class="card soft">
-                <div class="badge">Social</div>
-                <h3>Социальная работа</h3>
-                <ul class="list"><li>Получить интерьер, соответствующий статусу и образу жизни</li></ul>
-              </div>
-            </div>
-            <div class="card" style="margin-top:14px">
-              <h3>Триггеры поиска</h3>
-              <ul class="list"><li>Ключи на руках</li><li>Начинается ремонт</li><li>Нужно быстро принять решения</li></ul>
-            </div>
-          </div>
-        </div>
-        <div class="acc-item">
-          <div class="acc-head">
-            <strong>Когда я делаю ремонт в дорогой квартире или доме, помогите мне избежать ошибок, переделок и бессмысленных переплат на материалах и мебели.</strong>
-            <span>+</span>
-          </div>
-          <div class="acc-body">
-            <div class="grid grid-3">
-              <div class="card soft">
-                <div class="badge">Functional</div>
-                <h3>Функциональная работа</h3>
-                <ul class="list"><li>Точные чертежи</li><li>Комплектация</li><li>Контроль реализации</li></ul>
-              </div>
-              <div class="card soft">
-                <div class="badge">Emotional</div>
-                <h3>Эмоциональная работа</h3>
-                <ul class="list"><li>Уверенность, что не упущу важное</li><li>Спокойствие по бюджету и срокам</li></ul>
-              </div>
-              <div class="card soft">
-                <div class="badge">Social</div>
-                <h3>Социальная работа</h3>
-                <ul class="list"><li>Показать рациональный и зрелый подход к проекту</li></ul>
-              </div>
-            </div>
-            <div class="card" style="margin-top:14px">
-              <h3>Триггеры поиска</h3>
-              <ul class="list"><li>Сложный объект</li><li>Большая площадь</li><li>Предыдущий негативный опыт ремонта</li></ul>
-            </div>
-          </div>
-        </div>
-        <div class="acc-item">
-          <div class="acc-head">
-            <strong>Когда я хочу интерьер под свой стиль жизни, помогите мне получить не просто красивые картинки, а пространство, в котором удобно жить и которое действительно реализуемо.</strong>
-            <span>+</span>
-          </div>
-          <div class="acc-body">
-            <div class="grid grid-3">
-              <div class="card soft">
-                <div class="badge">Functional</div>
-                <h3>Функциональная работа</h3>
-                <ul class="list"><li>Концепция + функциональность</li><li>3D-визуализации</li><li>Реализуемые решения</li></ul>
-              </div>
-              <div class="card soft">
-                <div class="badge">Emotional</div>
-                <h3>Эмоциональная работа</h3>
-                <ul class="list"><li>Радость ожидания результата</li><li>Уверенность, что меня услышали</li></ul>
-              </div>
-              <div class="card soft">
-                <div class="badge">Social</div>
-                <h3>Социальная работа</h3>
-                <ul class="list"><li>Интерьер, который можно с гордостью показывать</li></ul>
-              </div>
-            </div>
-            <div class="card" style="margin-top:14px">
-              <h3>Триггеры поиска</h3>
-              <ul class="list"><li>Новая квартира</li><li>Переезд семьи</li><li>Желание обновить образ жизни</li></ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="steps" class="section">
-      <div class="section-head">
-        <div>
-          <h2>Этапы проекта до запуска</h2>
-          <p class="sub">Не интерфейсная инструкция, а понятная клиенту дорожная карта работ.</p>
-        </div>
-      </div>
-      <div class="grid grid-3">
-        <div class="card"><div class="badge">Этап 1</div><h3>Фиксация оффера и доказательств</h3><p>Подтверждаем формулировки акции, состав услуг, права на кейсы и тезисы по ЖК.</p></div>
-        <div class="card"><div class="badge">Этап 2</div><h3>Посадочные и аналитика</h3><p>Дорабатываем страницы под сценарии спроса, внедряем Метрику, цели, CRM-связку и офлайн-конверсии.</p></div>
-        <div class="card"><div class="badge">Этап 3</div><h3>Семантика и архитектура кампаний</h3><p>Разделяем квартиры, дома, ЖК, стоимость, дизайн+реализация, чистый проект и исключаем лишнее.</p></div>
-        <div class="card"><div class="badge">Этап 4</div><h3>Стартовый тест</h3><p>Запускаем ограниченный и интерпретируемый набор контуров с контролем качества запросов и лидов.</p></div>
-        <div class="card"><div class="badge">Этап 5</div><h3>Оценка качества</h3><p>Смотрим не только CPL, а долю квалифицированных обращений, встречи и движение до договора.</p></div>
-        <div class="card"><div class="badge">Этап 6</div><h3>Масштабирование</h3><p>Добавляем объём только там, где подтверждаются качество спроса и допустимая экономика.</p></div>
-      </div>
-    </section>
-
-    <section id="questions" class="section">
-      <div class="section-head">
-        <div>
-          <h2>Что нужно от клиента, чтобы стратегия стала запускной</h2>
-          <p class="sub">Сейчас стратегия уже понятна по логике. Чтобы она стала расчётной и готовой к запуску, нужно закрыть следующие вопросы.</p>
-        </div>
-      </div>
-      <div class="grid grid-2">
-        <div class="card">
-          <h3>Критичные данные</h3>
-          <ol class="list">
-            <li>Какой сайт или лендинг используется для рекламы, и какие страницы уже существуют?</li><li>Как формально определяется квалифицированный лид?</li><li>Какова средняя маржа по дизайн-проекту и по реализации, и какой CAC приемлем?</li><li>Какая текущая воронка: лид → квалификация → встреча → договор → оплата?</li><li>Какие кейсы и доказательства по ЖК и реализованным проектам готовы к публикации?</li><li>Кто обрабатывает лиды и как быстро отвечает?</li>
-          </ol>
-        </div>
-        <div class="note">
-          <strong>Важно.</strong> Сейчас можно и нужно делать красивую визуальную стратегию и подготовку,
-          но нельзя честно называть точный бюджет, CPL или CAC без маржи, воронки и данных аналитики.
-          Лучше оставить эти блоки прозрачными, чем создавать у клиента иллюзию точности.
-        </div>
-      </div>
-    </section>
-
-    <section id="sources" class="section">
-      <div class="section-head">
-        <div>
-          <h2>Источники и рамка достоверности</h2>
-          <p class="sub">Существенные механики опираются на официальную документацию Яндекса; блок по аудитории — на бриф, рыночную логику и открытые материалы о роли дизайн-проекта и выборе дизайнера.</p>
-        </div>
-      </div>
-      <div class="card">
-        <div class="columns">
-          <a href="https://yandex.ru/support/direct/ru/unified-performance-campaign/create-campaign" target="_blank" rel="noopener"><strong>Яндекс Директ — создание Единой перфоманс-кампании</strong><br><span class="mini">Для логики выбора ЕПК и мест показа.</span></a><a href="https://yandex.ru/support/direct/ru/troubleshooting/shows" target="_blank" rel="noopener"><strong>Яндекс Директ — показ объявлений и места показа</strong><br><span class="mini">Подтверждает логику выбора только Поиска.</span></a><a href="https://yandex.ru/support/direct/ru/impression-criteria/autotargeting-upc" target="_blank" rel="noopener"><strong>Яндекс Директ — автотаргетинг в ЕПК</strong><br><span class="mini">Нужен для объяснения, почему автотаргетинг учитываем как часть стратегии.</span></a><a href="https://yandex.ru/support/metrica/ru/data/offline-conversion.html" target="_blank" rel="noopener"><strong>Яндекс Метрика — офлайн-конверсии</strong><br><span class="mini">Для визуализации логики глубокой аналитики.</span></a><a href="https://www.yandex.ru/support/metrica/ru/reports/offline-conversions" target="_blank" rel="noopener"><strong>Яндекс Метрика — отчёт по офлайн-конверсиям</strong><br><span class="mini">Для связи лидов, квалификации и продаж.</span></a><a href="https://realty.rbc.ru/news/6020d4969a7947dac2d4804e" target="_blank" rel="noopener"><strong>РБК Недвижимость — Что надо знать о дизайн-проекте квартиры</strong><br><span class="mini">Подсвечивает роль дизайн-проекта как инструкции для строителей.</span></a><a href="https://realty.rbc.ru/news/62bb08859a7947aff7f3217f" target="_blank" rel="noopener"><strong>РБК Недвижимость — Дизайн-проект квартиры: что это и для чего нужен</strong><br><span class="mini">Подсвечивает ценность точной комплектации и снижения ошибок.</span></a><a href="https://www.cian.ru/stati-kak-najti-idealnogo-dizajnera-interera-poshagovoe-rukovodstvo-po-vyboru-340923/" target="_blank" rel="noopener"><strong>ЦИАН — Как выбрать дизайнера интерьера для квартиры и дома</strong><br><span class="mini">Использовано как дополнительный внешний ориентир по критериям выбора.</span></a><a href="https://ufa.domclick.ru/novostrojki/elitnye" target="_blank" rel="noopener"><strong>Domclick — элитные новостройки Уфы</strong><br><span class="mini">Подтверждает наличие премиального/элитного сегмента в новостройках Уфы.</span></a>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <p><strong>Формат:</strong> готовый статический мини‑сайт для публикации в GitHub Pages / Netlify / Vercel как публичный репозиторий.</p>
-      <p class="mini">Подготовлено как визуальная версия рекламной стратегии. При необходимости можно добавить фирменные цвета, логотип, кейсы и скриншоты портфолио.</p>
-    </footer>
-  </main>
-
-<script>
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const parent = btn.parentElement;
-    parent.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
-    btn.classList.add('active');
-    const id = btn.dataset.tab;
-    const scope = parent.parentElement;
-    scope.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-    scope.querySelector('#' + id).classList.add('active');
-  });
-});
-
-document.querySelectorAll('.acc-head').forEach(head => {
-  head.addEventListener('click', () => {
-    head.parentElement.classList.toggle('open');
-  });
-});
-
-const filterButtons = document.querySelectorAll('.filter-btn');
-const toolCards = document.querySelectorAll('.tool-card');
-filterButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterButtons.forEach(x=>x.classList.remove('active'));
-    btn.classList.add('active');
-    const filter = btn.dataset.filter;
-    toolCards.forEach(card => {
-      const show = filter === 'all' || card.dataset.stage === filter;
-      card.style.display = show ? 'block' : 'none';
-    });
-  });
-});
-</script>
-</body>
+    <script id="strategy-data" type="application/json">
+      {
+        "audience": [
+          {
+            "name": "Собственник квартиры в новом ЖК",
+            "tag": "Главный стартовый сегмент",
+            "why": "Уже купил квартиру или получил ключи, хочет быстро перейти от «коробки» к реализованному интерьеру без хаоса подрядчиков.",
+            "pains": [
+              "Много решений и мало времени",
+              "Страх ошибок на стройке",
+              "Не хочет координировать дизайнеров, бригаду и поставщиков"
+            ],
+            "searches": [
+              "дизайн проект квартиры уфа",
+              "дизайн и ремонт квартиры уфа",
+              "интерьер под ключ уфа"
+            ],
+            "fit": 95
+          },
+          {
+            "name": "Собственник квартиры в премиальном ЖК",
+            "tag": "Высокая релевантность",
+            "why": "Ожидает более высокий уровень сервиса, эстетики и доказательств компетенции; лучше реагирует на кейсы и знание конкретного ЖК.",
+            "pains": [
+              "Нужен интерьер под статус и образ жизни",
+              "Важен предсказуемый результат",
+              "Не хочет объяснять одно и то же нескольким подрядчикам"
+            ],
+            "searches": [
+              "дизайн квартиры жк прайм уфа",
+              "дизайн жк кристалл уфа",
+              "дизайнер интерьера премиум уфа"
+            ],
+            "fit": 92
+          },
+          {
+            "name": "Собственник дома / коттеджа",
+            "tag": "Крупный чек",
+            "why": "Большая площадь, больше рисков и координации; выше ценность комплексного ведения и архитектурной компетенции.",
+            "pains": [
+              "Много помещений и сценариев жизни",
+              "Техническая сложность",
+              "Высокая цена ошибки"
+            ],
+            "searches": [
+              "дизайн интерьера дома уфа",
+              "дизайн коттеджа уфа",
+              "ремонт коттеджа под ключ уфа"
+            ],
+            "fit": 88
+          },
+          {
+            "name": "Заказчик только дизайн-проекта",
+            "tag": "Вторичный, но важный",
+            "why": "Пока не готов отдать реализацию одной команде, но ищет сильный проект. Этот сегмент можно аккуратно переводить в реализацию позже.",
+            "pains": [
+              "Боится переплатить",
+              "Сравнивает состав и цену проекта",
+              "Не всегда понимает ценность авторского сопровождения"
+            ],
+            "searches": [
+              "стоимость дизайн проекта уфа",
+              "дизайн интерьера цена м2 уфа",
+              "студия дизайна интерьера уфа"
+            ],
+            "fit": 75
+          }
+        ]
+      }
+    </script>
+  </body>
 </html>
