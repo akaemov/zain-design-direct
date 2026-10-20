@@ -1732,3 +1732,6 @@ noscript {
 #bar-chart {
   max-width: none;
 }
+@media (min-width: 761px) and (max-width: 1000px) {
+  .charts { grid-template-columns: 1fr; }
+}
